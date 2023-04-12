@@ -3,7 +3,7 @@ import { v4 as uuidv4} from 'uuid';
 import { ColumnType } from "../utils/enums";
 import { TaskModel } from "../utils/models";
 import useTaskCollection from './useTaskCollection';
-import { pickChakraRandomColor } from "../utils/helpers";
+import { pickChakraRandomColor, swap } from "../utils/helpers";
 const MAX_TASK_PER_COLUMN = 100;
 
 function useColumnTask(column:ColumnType){
@@ -74,12 +74,28 @@ function useColumnTask(column:ColumnType){
         },
         [column,setTasks],
         )
+
+    const swapTasks = useCallback(
+        (i:number, j:number) =>{
+            console.log("swap")
+            setTasks((allTasks) => {
+                const columnTasks = allTasks[column];
+                return {
+                    ...allTasks,
+                    [column]:swap(columnTasks,i,j),
+                };
+            });
+        },
+
+        [column,setTasks],
+    )
     return{
         tasks:tasks[column],
         addEmptyTask,
         updateTask,
         deleteTask,
-        dropTaskFrom 
+        dropTaskFrom,
+        swapTasks
     }
 }
 

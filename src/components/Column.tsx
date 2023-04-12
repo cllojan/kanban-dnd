@@ -26,11 +26,11 @@ const ColumnColorScheme: Record<ColumnType, string> = {
 
 function Column({column}:{column:ColumnType}){
 
-    const {tasks, addEmptyTask,updateTask, deleteTask, dropTaskFrom} = useColumnTask(column);
+    const {tasks, addEmptyTask,updateTask, deleteTask, dropTaskFrom, swapTasks} = useColumnTask(column);
 
     const {dropRef, isOver} = useColumnDrop(column, dropTaskFrom)
     const ColumnTasks = tasks.map((task,index) => (
-        <Task key={task.id} task={task} index={index} onDelete={deleteTask} onUpdate={updateTask}/>
+        <Task key={task.id} task={task} index={index} onDelete={deleteTask} onUpdate={updateTask} onDropHover={swapTasks}/>
     ))
 
     return (
