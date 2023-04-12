@@ -10,7 +10,18 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "@chakra-ui/icons": "^2.0.8",
+    "@chakra-ui/react": "^2.2.6",
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "framer-motion": "^6.5.1",    
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",    
+    "react-textarea-autosize": "^8.3.4",
+    "usehooks-ts": "^2.6.0",
+    "uuid": "^8.3.2",
+    "vite-plugin-eslint": "^1.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
