@@ -15,6 +15,7 @@ import { ColumnType } from "../utils/enums";
 import { TaskModel } from "../utils/models";
 import Task from './Task';
 import useColumnTask from "../hooks/useColumnTask";
+import useColumnDrop from "../hooks/useColumnDrop";
 const ColumnColorScheme: Record<ColumnType, string> = {
     Todo:"gray",
     "In Progress":'blue',
@@ -25,10 +26,13 @@ const ColumnColorScheme: Record<ColumnType, string> = {
 
 function Column({column}:{column:ColumnType}){
 
-    const {tasks, addEmptyTask,updateTask, deleteTask} = useColumnTask(column);
+    const {tasks, addEmptyTask,updateTask, deleteTask, dropTaskFrom} = useColumnTask(column);
+
+    const {dropRef, isOver} = useColumnDrop(column, dropTaskFrom)
     const ColumnTasks = tasks.map((task,index) => (
         <Task key={task.id} task={task} index={index} onDelete={deleteTask} onUpdate={updateTask}/>
     ))
+
     return (
         <Box>
             <Heading fontSize="md" mb={4} letterSpacing="wide">
@@ -56,6 +60,7 @@ function Column({column}:{column:ColumnType}){
                 onClick={addEmptyTask}
             />
             <Stack
+                ref={dropRef}
                 direction={{base:'row',md:'column'}}
                 h={{base:300,md:600}}
                 p={4}
@@ -65,6 +70,7 @@ function Column({column}:{column:ColumnType}){
                 rounded="lg"
                 boxShadow="md"
                 overflow="auto"
+                opacity={isOver ? 0.85 :1}
             >
                 {ColumnTasks}
             </Stack>
