@@ -14,6 +14,7 @@ from '@chakra-ui/react';
 import { ColumnType } from "../utils/enums";
 import { TaskModel } from "../utils/models";
 import Task from './Task';
+import useColumnTask from "../hooks/useColumnTask";
 const ColumnColorScheme: Record<ColumnType, string> = {
     Todo:"gray",
     "In Progress":'blue',
@@ -21,17 +22,12 @@ const ColumnColorScheme: Record<ColumnType, string> = {
     Completed:'green',
 }
 
-const mockTasks: TaskModel[] = [
-    {
-        id:'1',
-        title:'Task1',
-        column:ColumnType.TO_DO,
-        color:'red.300',
-    }
-]
+
 function Column({column}:{column:ColumnType}){
-    const ColumnTasks = mockTasks.map((task,index) => (
-        <Task key={task.id} task={task} index={index}/>
+
+    const {tasks, addEmptyTask,updateTask, deleteTask} = useColumnTask(column);
+    const ColumnTasks = tasks.map((task,index) => (
+        <Task key={task.id} task={task} index={index} onDelete={deleteTask} onUpdate={updateTask}/>
     ))
     return (
         <Box>
@@ -57,7 +53,7 @@ function Column({column}:{column:ColumnType}){
                 colorScheme="black"
                 aria-label="add-task"
                 icon={<AddIcon/>}
-
+                onClick={addEmptyTask}
             />
             <Stack
                 direction={{base:'row',md:'column'}}

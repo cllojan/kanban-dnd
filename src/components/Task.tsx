@@ -1,13 +1,25 @@
 import { Box,Textarea, IconButton } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { TaskModel } from "../utils/models"
+import React from "react";
 
 type TaskProps = {
     index: number;
     task:TaskModel;
+    onUpdate:(id:TaskModel['id'],updateTask:TaskModel) => void;
+    onDelete:(id:TaskModel['id']) => void;
 }
 
-function Task({index,task}:TaskProps){
+function Task({index,task,onUpdate:handleUpdate,onDelete:handleDelete}:TaskProps){
+    const handleTitleChange= (e:React.ChangeEvent<HTMLTextAreaElement>) => {
+        const newTitle = e.target.value;
+        handleUpdate(task.id, {...task, title:newTitle});
+    };
+
+    const handleDeleteClick = () =>{
+        handleDelete(task.id)
+    }
+
     return(
         <Box
             as="div"
@@ -37,6 +49,7 @@ function Task({index,task}:TaskProps){
                 _groupHover={{
                     opacity:1,
                 }}
+                onClick={handleDeleteClick}
             />
 
             <Textarea
@@ -50,7 +63,9 @@ function Task({index,task}:TaskProps){
                 maxH={200}
                 focusBorderColor="none"
                 color="gray.700"
+                onChange={handleTitleChange}
             />
+            
         </Box>
     )
 }
